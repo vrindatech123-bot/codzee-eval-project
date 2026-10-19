@@ -22,4 +22,16 @@ app.get('/user/search', (req, res) => {
 });
 
 
+// Feature: Batch update notification
+app.post('/notify-all', async (req, res) => {
+  const emails = ['user1@test.com', 'user2@test.com', 'user3@test.com'];
+  // Performance Issue: forEach with async/await doesn't await properly
+  emails.forEach(async (email) => {
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    console.log(`Sent to ${email}`);
+  });
+  res.json({ status: 'All notifications sent' });
+});
+
+
 app.listen(3000, () => console.log('Server running on port 3000'));
