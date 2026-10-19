@@ -21,5 +21,14 @@ app.get('/user/search', (req, res) => {
   res.send(`Executing query: ${dbQuery}`);
 });
 
+// Feature: Delete user by ID
+app.delete('/user/:id', (req, res) => {
+  const userId = req.params.id;
+  // Logic Bug: Loose equality and no check if user exists before splicing
+  const index = users.findIndex(u => u.id == userId);
+  users.splice(index, 1); // If not found, index is -1, which removes the last element!
+  res.json({ message: 'User deleted' });
+});
+
 
 app.listen(3000, () => console.log('Server running on port 3000'));
